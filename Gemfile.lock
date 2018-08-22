@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    chronic (0.10.2)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     timezone (1.2.12)
@@ -10,6 +11,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chronic
   terminal-table
   timezone
 
