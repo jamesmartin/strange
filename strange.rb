@@ -3,19 +3,23 @@ require "terminal-table"
 
 if __FILE__ == $0
   zones = [
+    "Australia/Sydney",
     "America/Los_Angeles",
-    "Australia/Sydney"
+    "America/New_York",
+    "Europe/Berlin",
+    "Europe/London",
   ].freeze
 
   now = Time.now
 
   valid_timezones = zones.map do |name|
     Timezone[name]
-  end.compact
+  end.compact.sort
 
   table = Terminal::Table.new do |t|
     valid_timezones.each do |zone|
-      t.add_row [zone.name, zone.dst?(now), zone.time_with_offset(now)]
+      dst = zone.dst?(now) ? "DST" : ""
+      t.add_row [zone.name, dst, zone.time_with_offset(now)]
     end
   end
 
