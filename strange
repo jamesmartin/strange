@@ -48,7 +48,7 @@ if __FILE__ == $0
   table = Terminal::Table.new(title: title) do |t|
     valid_timezones.each do |zone|
       dst = zone.dst?(time) ? "DST" : ""
-      t.add_row [zone.name, dst, zone.time_with_offset(time)]
+      t.add_row ["#{zone.name} (#{zone.abbr(time)})", dst, zone.time_with_offset(time)]
     end
   end
 
