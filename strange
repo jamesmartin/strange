@@ -8,9 +8,29 @@ require "chronic"
 require "terminal-table"
 require "timezone"
 
+class FuzzyTimeParser
+
+  TZ_ABR = /^(.*)([A-Z]{3,})$/
+
+  # Public: parses a string and attempts to convert it to a date and time.
+  # If a Timezone abreviation is given at the end of the raw_time, this method
+  # attempts to construct a valid date and time in that timezone.
+  #
+  # Returns a Time/DateTime like object.
+  def self.parse(raw_time)
+    match = TZ_ABR.match(raw_time)
+    if match.nil?
+      Chronic.parse(raw_time) || Time.now
+    else
+      without_tz = Chronic.parse(match[1]) || Time.now
+      DateTime.parse(without_tz.strftime("%F %T #{match[2]}"))
+    end
+  end
+end
+
 if __FILE__ == $0
   raw_time = ARGV.join(" ")
-  time = Chronic.parse(raw_time) || Time.now
+  time = FuzzyTimeParser.parse(raw_time)
 
   zones = [
     "Australia/Sydney",
